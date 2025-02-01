@@ -1,34 +1,58 @@
+"""
+ETL module for processing the Titanic dataset.
+
+This module defines the TitanicETL class, which performs extract, transform, and load (ETL)
+operations on the Titanic dataset.
+"""
+
+from typing import Union
 import pandas as pd
-import os
+from pathlib import Path
 
 class TitanicETL:
-    def __init__(self, input_path: str, output_path: str):
-        self.input_path = input_path
-        self.output_path = output_path
-
-    def extract(self) -> pd.DataFrame:
-        """Extract raw data from CSV."""
-        return pd.read_csv(self.input_path)
-
-    def transform(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Transform data: handle missing values, convert types, and create new features."""
-        df = df.drop(columns=['Cabin'], errors='ignore')  # Drop 'Cabin' due to many missing values
-        df['Age'].fillna(df['Age'].median(), inplace=True)  # Fill missing Age with median
-        df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)  # Fill missing Embarked with mode
-        df['Fare'] = df['Fare'].fillna(df['Fare'].median())
-        df['FamilySize'] = df['SibSp'] + df['Parch'] + 1  # Create new feature
+    """
+    A class to handle the ETL process for the Titanic dataset.
+    
+    Methods:
+        extract(file_path): Reads the Titanic dataset from a CSV file.
+        transform(df): Cleans and processes the dataset.
+        load(df, output_path): Saves the processed dataset to a new CSV file.
+    """
+    
+    @staticmethod
+    def extract(file_path: Union[str, Path]) -> pd.DataFrame:
+        """Reads the Titanic dataset from a CSV file.
+        
+        Args:
+            file_path (str): Path to the CSV file.
+            
+        Returns:
+            pd.DataFrame: A DataFrame containing the raw dataset.
+        """
+        if isinstance(file_path, str):
+            file_path = Path(file_path)
+        return pd.read_csv(file_path)
+    
+    @staticmethod
+    def transform(df: pd.DataFrame) -> pd.DataFrame:
+        """Cleans and processes the Titanic dataset.
+        
+        Args:
+            df (pd.DataFrame): Raw Titanic dataset.
+            
+        Returns:
+            pd.DataFrame: Transformed dataset with necessary preprocessing applied.
+        """
+        df = df.dropna(subset=["Survived", "Pclass", "Age", "Fare"])
+        df = df[['Survived', 'Pclass', 'Age', 'Fare']]
         return df
-
-    def load(self, df: pd.DataFrame):
-        """Load transformed data to CSV."""
-        df.to_csv(self.output_path, index=False)
-
-    def run_pipeline(self):
-        """Run the full ETL pipeline."""
-        print("Extracting data...")
-        data = self.extract()
-        print("Transforming data...")
-        transformed_data = self.transform(data)
-        print("Loading data...")
-        self.load(transformed_data)
-        print("ETL pipeline completed successfully!")
+    
+    @staticmethod
+    def load(df: pd.DataFrame, output_path: str) -> None:
+        """Saves the processed dataset to a new CSV file.
+        
+        Args:
+            df (pd.DataFrame): Transformed dataset.
+            output_path (str): Path to save the cleaned dataset.
+        """
+        df.to_csv(output_path, index=False)
