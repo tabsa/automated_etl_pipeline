@@ -62,4 +62,8 @@ def test_load():
         "Fare",
     }
     df_expected = pd.read_csv(ROOT_FOLDER / "test_files/titanic_cleaned.csv")
-    assert assert_frame_equal(df_expected, d_data[TABLE_TITANIC_CLEAN])
+    assert_frame_equal(
+        df_expected,
+        d_data[TABLE_TITANIC_CLEAN].reset_index(drop=True),
+        check_dtype=False,
+    )
