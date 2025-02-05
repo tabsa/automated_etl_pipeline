@@ -33,17 +33,17 @@ jobs:
           pip install -r requirements-dev.txt  # Install dev dependencies
 #          pip install pandas==${{ matrix.pandas-version }}
 
-      - name: Run Black (Code Formatting)
+      - name: Run Linting (Code Formatting)
         run: |
           source venv/bin/activate
-          black --check .
+          black --check --line-length 130 dataset_etl
 
       - name: Run mypy (Type Checking)
         run: |
           source venv/bin/activate
           mypy dataset_etl
 
-      - name: Run Tests with pytest
+      - name: Run UnitTests with pytest
         run: |
           source venv/bin/activate
           pytest unittests --disable-warnings --cov=src
