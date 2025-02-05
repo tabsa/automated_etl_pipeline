@@ -81,5 +81,5 @@ if __name__ == "__main__":
     d_data = titanic_etl.load()
 
     titanic_etl.load_to_csv(
-        d_data[TABLE_TITANIC_CLEAN], root_folder / "test_files/titanic_cleaned.csv"
+        d_data[TABLE_TITANIC_CLEAN], str(root_folder / "test_files/titanic_cleaned.csv")
     )
