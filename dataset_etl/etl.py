@@ -6,7 +6,7 @@ operations on the Titanic dataset.
 """
 
 from typing import Union, Dict
-import pandas as pd
+import pandas as pd  # type: ignore
 from pathlib import Path
 
 TABLE_TITANIC_RAW: str = "titanic_raw"
