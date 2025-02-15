@@ -1,13 +1,16 @@
 name: CD-build-and-release
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - master
+    types:
+      - closed
 
 jobs:
   build-and-release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
     name: Build and Publish Release
     runs-on: ubuntu-latest
 
