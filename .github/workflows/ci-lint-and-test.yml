@@ -24,26 +24,42 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt  # Install pkg dependencies
-          pip install -r requirements-dev.txt  # Install dev dependencies
+      # Simplified dependency management
+      # - name: Install dependencies
+      #   run: |
+      #     python -m venv venv
+      #     source venv/bin/activate
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt  # Install pkg dependencies
+      #     pip install -r requirements-dev.txt  # Install dev dependencies
 #          pip install pandas==${{ matrix.pandas-version }}
 
+      # Automatic python environment handling
+      - name: Install Poetry
+        run: pip install poetry
+      
+      - name: Install dependencies with dev
+        run: poetry install --with dev
+
       - name: Run Linting (Code Formatting)
-        run: |
-          source venv/bin/activate
-          black --check --diff dataset_etl
+        # without poetry
+        # run: |
+        #   source venv/bin/activate
+        #   black --check --diff dataset_etl
+        # with poetry
+        run: poetry run black --check --diff dataset_etl
 
       - name: Run mypy (Type Checking)
-        run: |
-          source venv/bin/activate
-          mypy dataset_etl
+        # without poetry
+        # run: |
+        #   source venv/bin/activate
+        #   mypy dataset_etl
+        # with poetry
+        run: poetry run mypy dataset_etl
 
       - name: Run UnitTests with pytest
-        run: |
-          source venv/bin/activate
-          pytest unittests --disable-warnings --cov=src
+        # without poetry      
+        # run: |
+        #   source venv/bin/activate
+        #   pytest unittests --disable-warnings --cov=src
+        run: poetry run pytest unittests --disable-warnings --cov=src

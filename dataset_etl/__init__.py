@@ -4,4 +4,4 @@ from .etl import TitanicETL
 
 __all__ = ["TitanicETL"]
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
