@@ -49,20 +49,33 @@ jobs:
         run: |
           poetry install --only main  # Install only production dependencies
 
-      - name: Extract package version
-        id: get_version
-        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
-
       - name: Build wheel
         run: |
           poetry build
 
+      - name: Extract package version
+        id: get_version
+        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git ls-remote --tags origin | grep -q "refs/tags/v${{ env.VERSION }}"; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          fi
+
+      - name: Get latest commit message
+        run: echo "LATEST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+  
       - name: Create GitHub Release
         id: create_release
+        if: env.TAG_EXISTS == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION }}
-          name: Release v${{ env.VERSION }}
+          name: ${{ env.LATEST_COMMIT_MESSAGE }}
           body_path: latest_release_note.md
           draft: false
           prerelease: false
