@@ -44,7 +44,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install --no-dev  # Install only production dependencies
+          poetry install --only main  # Install only production dependencies
 
       - name: Extract package version
         id: get_version
