@@ -67,7 +67,7 @@ jobs:
           fi
 
       - name: Get latest commit message
-        run: echo "LATEST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: echo "LATEST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr '\n' ' ')" >> $GITHUB_ENV  
   
       - name: Create GitHub Release
         id: create_release
