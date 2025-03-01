@@ -32,15 +32,15 @@ etl.run_pipeline()
 
 ## Project Structure
 ```
-├── titanic_etl          # Python package directory
-│   ├── __init__.py      # Package initialization
-│   ├── etl.py           # ETL pipeline script
-├── data                 # Data directory (ignored in .gitignore)
-│   ├── titanic_raw.csv  # Input raw dataset (downloaded from Kaggle)
-│   ├── titanic_cleaned.csv  # Output cleaned dataset
-├── setup.py             # Package setup script
-├── requirements.txt     # Required dependencies
-├── README.md            # Project documentation
+├── dataset_etl               # Python package directory
+│   ├── __init__.py           # Package initialization
+│   ├── etl.py                # ETL pipeline script
+├── data                      # Data directory (ignored in .gitignore)
+│   ├── titanic_raw.csv       # Input raw dataset (downloaded from Kaggle)
+│   ├── titanic_cleaned.csv   # Output cleaned dataset
+├── setup.py                  # Package setup script
+├── requirements.txt          # Required dependencies
+├── README.md                 # Project documentation
 ```
 
 ## License

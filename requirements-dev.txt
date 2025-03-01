@@ -1,4 +1,8 @@
-black
-mypy
-pytest
-pytest-cov
+# Linting and testing dependencies
+black  # Linting module
+mypy  # Type check module
+pytest  # UnitTest module
+pytest-cov  # UnitTest module
+# Build wheel dependencies
+setuptools
+wheel
