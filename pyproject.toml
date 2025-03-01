@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dataset_etl"
-version = "0.1.0"
+version = "0.1.1"
 description = "automated ETL pipeline using github actions for CI/CD workflow"
 authors = ["tabsa <tas.tiago.sousa@gmail.com>"]
 license = "MIT"
